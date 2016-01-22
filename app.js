@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var morgan = require('morgan');
 var swig = require('swig');
-var makesRouter = require('./routes');
+var makesRouter = require('./models');
 var fs = require('fs');
 var path = require('path');
 var mime = require('mime');
@@ -31,7 +31,7 @@ var server = app.listen(1337, function(){
 var io = socketio.listen(server);
 
 // modular routing that uses io inside it
-app.use('/', makesRouter(io));
+app.use('/', makesRouter.makeRouterWithSockets(io));
 
 // the typical way to use express static middleware.
 app.use(express.static(path.join(__dirname, '/public')));
